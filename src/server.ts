@@ -11,6 +11,7 @@ import {
 } from "./db";
 import filePath from "./filePath";
 import phonebookData from "./data/phonebook.json"
+import { getPersonById } from "./utils/utils";
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
@@ -46,6 +47,12 @@ app.get("/info", (req, res) => {
     const numberOfPeople = phonebookData.length
     const date = new Date()
     res.send(`<p>Phonebook has info for ${numberOfPeople} people</p><br/><p>${date}</p>`)
+})
+
+app.get<{id: string}>("/api/persons/:id", (req, res) => {
+    const personData = getPersonById(req.params.id)
+    const statusCode = personData === "not found" ? 404 : 200
+    res.status(statusCode).json(personData)
 })
 
 // POST /items
