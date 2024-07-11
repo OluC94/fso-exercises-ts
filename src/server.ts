@@ -51,6 +51,11 @@ app.get("/", (req, res) => {
     res.sendFile(pathToFile);
 });
 
+app.get("/hello", (req, res) => {
+    res.send("Hello from Olu")
+    return
+})
+
 app.get("/api/persons", (req, res) => {
     const allPeople = phonebookData;
     res.status(200).json(allPeople);
