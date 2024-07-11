@@ -12,6 +12,7 @@ import {
 import filePath from "./filePath";
 import phonebookData from "./data/phonebook.json"
 import { addPerson, getPersonById, isNotUniqueName, PhonebookItem, PhonebookItemWithId } from "./utils/utils";
+import morgan from "morgan";
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
@@ -23,6 +24,7 @@ const app = express();
 app.use(express.json());
 /** To allow 'Cross-Origin Resource Sharing': https://en.wikipedia.org/wiki/Cross-origin_resource_sharing */
 app.use(cors());
+app.use(morgan('tiny'))
 
 // read in contents of any environment variables in the .env file
 // Must be done BEFORE trying to access process.env...
@@ -33,7 +35,7 @@ const PORT_NUMBER = process.env.PORT ?? 4000;
 
 // API info page
 app.get("/", (req, res) => {
-    console.log(phonebookData)
+    console.log()
     const pathToFile = filePath("../public/index.html");
     res.sendFile(pathToFile);
 });
