@@ -11,7 +11,7 @@ import {
 } from "./db";
 import filePath from "./filePath";
 import phonebookData from "./data/phonebook.json"
-import { getPersonById } from "./utils/utils";
+import { addPerson, getPersonById, PhonebookItem, PhonebookItemWithId } from "./utils/utils";
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
@@ -53,6 +53,18 @@ app.get<{id: string}>("/api/persons/:id", (req, res) => {
     const personData = getPersonById(req.params.id)
     const statusCode = personData === "not found" ? 404 : 200
     res.status(statusCode).json(personData)
+})
+
+app.delete<{id: string}>("/api/persons/:id", (req, res) => {
+    const personData = getPersonById(req.params.id)
+    const statusCode = personData === "not found" ? 404 : 204
+    res.status(statusCode).json(personData)
+})
+
+app.post<{}, {}, PhonebookItem>("/api/persons/", (req ,res) => {
+    const postData = req.body
+    const newEntry = addPerson(postData)
+    res.status(201).json(newEntry)
 })
 
 // POST /items
