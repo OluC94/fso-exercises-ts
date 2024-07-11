@@ -52,9 +52,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/hello", (req, res) => {
-    res.send("Hello from Olu")
-    return
-})
+    res.send("Hello from Olu");
+    return;
+});
 
 app.get("/api/persons", (req, res) => {
     const allPeople = phonebookData;
