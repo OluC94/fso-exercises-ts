@@ -10,6 +10,7 @@ import {
     updateDbItemById,
 } from "./db";
 import filePath from "./filePath";
+import phonebookData from "./data/phonebook.json"
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
@@ -31,15 +32,21 @@ const PORT_NUMBER = process.env.PORT ?? 4000;
 
 // API info page
 app.get("/", (req, res) => {
+    console.log(phonebookData)
     const pathToFile = filePath("../public/index.html");
     res.sendFile(pathToFile);
 });
 
-// GET /items
-app.get("/items", (req, res) => {
-    const allSignatures = getAllDbItems();
-    res.status(200).json(allSignatures);
+app.get("/api/persons", (req, res) => {
+    const allPeople = phonebookData;
+    res.status(200).json(allPeople);
 });
+
+app.get("/info", (req, res) => {
+    const numberOfPeople = phonebookData.length
+    const date = new Date()
+    res.send(`<p>Phonebook has info for ${numberOfPeople} people</p><br/><p>${date}</p>`)
+})
 
 // POST /items
 app.post<{}, {}, DbItem>("/items", (req, res) => {

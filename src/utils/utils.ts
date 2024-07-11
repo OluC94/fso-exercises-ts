@@ -1,0 +1,7 @@
+interface PhonebookItem {
+    
+}
+
+function getPersonById(){
+
+}
