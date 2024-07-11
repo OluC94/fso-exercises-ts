@@ -24,7 +24,17 @@ const app = express();
 app.use(express.json());
 /** To allow 'Cross-Origin Resource Sharing': https://en.wikipedia.org/wiki/Cross-origin_resource_sharing */
 app.use(cors());
-app.use(morgan('tiny'))
+app.use(morgan(function (tokens, req, res) {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      JSON.stringify(req.body)
+      
+    ].join(' ')
+  }))
 
 // read in contents of any environment variables in the .env file
 // Must be done BEFORE trying to access process.env...
