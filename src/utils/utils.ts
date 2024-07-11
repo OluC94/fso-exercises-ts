@@ -24,4 +24,9 @@ const addPerson = (data: PhonebookItem) : PhonebookItemWithId => {
     return newPerson
 }
 
-export {PhonebookItemWithId, PhonebookItem, getPersonById, addPerson}
+const isNotUniqueName = (data: PhonebookItem) : boolean => {
+    const matchingPeople: PhonebookItemWithId[] = phonebookData.filter(person => person.name === data.name)
+    return matchingPeople.length > 0;
+}
+
+export {PhonebookItemWithId, PhonebookItem, getPersonById, addPerson, isNotUniqueName}

@@ -11,7 +11,7 @@ import {
 } from "./db";
 import filePath from "./filePath";
 import phonebookData from "./data/phonebook.json"
-import { addPerson, getPersonById, PhonebookItem, PhonebookItemWithId } from "./utils/utils";
+import { addPerson, getPersonById, isNotUniqueName, PhonebookItem, PhonebookItemWithId } from "./utils/utils";
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
@@ -64,11 +64,18 @@ app.delete<{id: string}>("/api/persons/:id", (req, res) => {
 app.post<{}, {}, PhonebookItem>("/api/persons/", (req ,res) => {
    
     const postData = req.body
+    if (isNotUniqueName(postData)){
+        res.status(400).json({eroor: "name must be unique"})
+        return
+    }
+
     if (postData.name && postData.number){
         const newEntry = addPerson(postData)
         res.status(201).json(newEntry)
         return
     }
+
+
     res.status(400).json({message: "error: incomplete data"})
     
 })
