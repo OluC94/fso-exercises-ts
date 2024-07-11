@@ -62,9 +62,15 @@ app.delete<{id: string}>("/api/persons/:id", (req, res) => {
 })
 
 app.post<{}, {}, PhonebookItem>("/api/persons/", (req ,res) => {
+   
     const postData = req.body
-    const newEntry = addPerson(postData)
-    res.status(201).json(newEntry)
+    if (postData.name && postData.number){
+        const newEntry = addPerson(postData)
+        res.status(201).json(newEntry)
+        return
+    }
+    res.status(400).json({message: "error: incomplete data"})
+    
 })
 
 // POST /items
